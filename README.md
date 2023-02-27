@@ -14,6 +14,7 @@ Code for each of the assignment task.
 
 ## Usage
 To run assignmet1 code, use the following args
+```
   -h, --help            show this help message and exit
   --image IMAGE         path to an image to apply transformations
   --scale               scale up or down an image
@@ -26,4 +27,4 @@ To run assignmet1 code, use the following args
   --affine              apply affine transformation
   --perspective         apply perspective transform
   --visualize           show output
-
+```
