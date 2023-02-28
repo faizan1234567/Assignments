@@ -113,7 +113,7 @@ class Transformations:
             translation in y-axis
         """
         translated = self.translate(tx, ty)
-        rotated_translated= self.rotate(angle)
+        rotated_translated= self.rotate(angle, translated_img=translated)
         return rotated_translated
     
     def affine(self,pt1 = None, pt2 = None, pt3 = None):
