@@ -81,7 +81,7 @@ class Transformations:
         dst = cv2.warpAffine(img, M, (height, width))
         return dst
     
-    def rotate(self, angle):
+    def rotate(self, angle, translated_img = None):
         """apply 2D rotation to an input image
         
         Parameters
@@ -89,8 +89,13 @@ class Transformations:
         angle: float
                rotation angle value
         """
-        height, width = self.image.shape[:2]
-        img = self.image.copy()
+        if translated_img is None:
+            height, width = self.image.shape[:2]
+            img = self.image.copy()
+        else:
+            height, width = translated_img.shape[:2]
+            img = translated_img.copy()
+
         M = cv2.getRotationMatrix2D(((width - 1)/2.0,(height  -1)/2.0), angle ,1)
         dst = cv2.warpAffine(img, M, (width, height))
         return dst
@@ -179,12 +184,18 @@ def main():
             img = None
 
         if args.visualize and img is not None:
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            plt.imshow(img)
-            plt.xticks([])
-            plt.yticks([])
-            plt.title(f"{label}")
-            plt.show()
+            matplot = False
+            if matplot:
+                img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                plt.imshow(img)
+                plt.xticks([])
+                plt.yticks([])
+                plt.title(f"{label}")
+                plt.show()
+            else:
+                cv2.imshow(f"{label}", img)
+                cv2.waitKey(0)
+                cv2.destroyAllWindows()
     print('Done!!!')
 
 if __name__ == "__main__":
