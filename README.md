@@ -57,3 +57,4 @@ Rest of the options to use
   --perspective         apply perspective transform
   --visualize           show output
 ```
+***Please star the repository if it is useful for you.***
