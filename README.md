@@ -3,11 +3,11 @@ Computer vision and ML course assignments.
 
 ## Computer vision
 Code for each of the computer vision assignment 1 task. 
-![Cat Picture](https://github.com/faizan1234567/Assignments/blob/main/CV/assignment1/images/cat1.jpg)
+![Cat Picture](https://github.com/faizan1234567/Assignments/blob/main/CV/assignment1/images/nature1.jpg)
  ### Assignment 01: Image Transformations
 
    In this assignment, Following transformation needs to be applied. 
-   
+
     - scaling
     - Rotation
     - Translation
