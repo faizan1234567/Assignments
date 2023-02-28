@@ -7,6 +7,7 @@ Code for each of the computer vision assignment 1 task.
  ### Assignment 01: Image Transformations
 
    In this assignment, Following transformation needs to be applied. 
+   
     - scaling
     - Rotation
     - Translation
@@ -41,6 +42,7 @@ And, for the image translation and rotation simultenously use:
 python image_transformations.py --image images/cat1.jpg --euclidean --visualize
 ```
 
+Rest of the options to use
 ```
   -h, --help            show this help message and exit
   --image IMAGE         path to an image to apply transformations
