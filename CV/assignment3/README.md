@@ -16,6 +16,10 @@ optional arguments:
   -h, --help     show this help message and exit
   --image IMAGE  path to the image
 ```
+## New Features
 
+ - added vegnetting effect
+ - option to remove the effect 
+ - plot subplots and save image
 
 
