@@ -6,7 +6,7 @@ The whole procedure involves the following steps
  3. line detection using hough transform probablistic
  4. visualization
 
-![alt text](https://github.com/faizan1234567/Assignments/CV/assignment4/images/result.png)
+![alt text](https://github.com/faizan1234567/Assignments/blob/main/CV/assignment4/images/result.png)
 
 ## Installation
 ```
