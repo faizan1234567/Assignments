@@ -181,6 +181,31 @@ def load_data():
     
     return train_set_x_orig, train_set_y_orig, test_set_x_orig, test_set_y_orig, classes
 
+def backward_linear(dZ, cache):
+    """calculate the derivate of W, b, and dAprev wrt to cost
+    
+    dz is the derivate of linear activation wrt to cost 
+    
+    params:
+    ------
+    dZ: np.ndarray
+    cache: tuple"""
+    Aprev, W, b = cache
+    m = Aprev.shape[1]
+    dW = 1/m * (np.dot(dZ, Aprev.T))
+    db = 1/m * (np.sum(dZ, axis = 1, keepdims = True))
+    dAprev = 1/m * (np.dot(W.T, dZ))
+    assert (dW.shape == W.shape)
+    assert (db.shape == b.shape)
+    assert (dAprev.shape == Aprev.shape)
+    return dW, db, dAprev
+
+
+def backward_nonlinear(dA, cache, activation = 'relu'):
+    
+
+
+
 
 if __name__ == "__main__":
     #testing activation functions
