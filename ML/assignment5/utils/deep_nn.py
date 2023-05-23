@@ -55,8 +55,8 @@ def diff_sigmoid(dA, cache):
     cache: np.ndarray
     """
     Z = cache
-    A = sigmoid(Z)
-    dz = dA * A * (1- A)
+    A, _ = sigmoid(Z)
+    dz = dA * A * (1 - A)
     assert (dz.shape == Z.shape)
     return dz
 
@@ -122,7 +122,7 @@ def forward_nonlinear(Aprev, W, b, activation = 'relu'):
         Z, linear_cache = forward_linear(Aprev, W, b)
         A, activation_cache = relu(Z)
     elif activation == 'sigmoid':
-        Z, linaer_cache = forward_linear(Aprev, W, b)
+        Z, linear_cache = forward_linear(Aprev, W, b)
         A, activation_cache = sigmoid(Z)
     cache = (linear_cache, activation_cache)
     assert (A.shape == (W.shape[0], Aprev.shape[1]))
@@ -150,7 +150,8 @@ def forward_propagation(X, parameters):
     AL, cache = forward_nonlinear(A, W, b, activation= 'sigmoid')
     caches.append(cache)
     assert(AL.shape == (1, X.shape[1]))
-    return AL, cache
+    return AL, caches
+
 
 def calculate_cost(AL, Y):
     """calculate cost between AL and Y, it's logistic regression cost
@@ -159,9 +160,9 @@ def calculate_cost(AL, Y):
     Y:   np.ndarray
     
     """
-    m = Y.shape[1]
+    m = AL.shape[1]
     cost = (1./m) * (-np.dot(Y,np.log(AL).T) - np.dot(1-Y, np.log(1-AL).T))
-    cost = np.sqeeuze(cost)
+    cost = np.squeeze(cost)
     assert (cost.shape == ())
     return cost
 
@@ -192,9 +193,9 @@ def backward_linear(dZ, cache):
     cache: tuple"""
     Aprev, W, b = cache
     m = Aprev.shape[1]
-    dW = 1/m * (np.dot(dZ, Aprev.T))
-    db = 1/m * (np.sum(dZ, axis = 1, keepdims = True))
-    dAprev = 1/m * (np.dot(W.T, dZ))
+    dW = 1./m * (np.dot(dZ, Aprev.T))
+    db = 1./m * (np.sum(dZ, axis = 1, keepdims = True))
+    dAprev = np.dot(W.T, dZ)
     assert (dW.shape == W.shape)
     assert (db.shape == b.shape)
     assert (dAprev.shape == Aprev.shape)
@@ -202,10 +203,91 @@ def backward_linear(dZ, cache):
 
 
 def backward_nonlinear(dA, cache, activation = 'relu'):
+    """implementing backward pass using non linear activation such as relu or sigmoid
     
+    dA: np.ndarray
+    cache: tuple
+    activation: str"""
+
+    linear_cache, activation_cache = cache
+    if activation == "sigmoid":
+        dZ = diff_sigmoid(dA, activation_cache)
+        dW, db, dAprev = backward_linear(dZ, linear_cache)
+    elif activation == "relu":
+        dZ = diff_relu(dA, activation_cache)
+        dW, db, dAprev = backward_linear(dZ, linear_cache)
+    
+    return dAprev, dW, db
+
+def backpropagation(AL, Y, caches):
+    """implemente backpropagtion for the L layers NN model
+    
+    AL is the model prediction while Y is the ground truth labls
+    cahces are the data structure stored during the forward prop
+    
+    params
+    ------
+    AL: np.ndarray
+    Y: np.ndarray
+    caches: tuple"""
+    m = Y.shape[1]
+    grads = {}
+    L = len(caches) # number of layers
+    Y = Y.reshape(AL.shape)
+    #final layer activation gradient
+    dAL = - (np.divide(Y, AL) - np.divide(1 - Y, 1 - AL))
+    current_cache = caches[L - 1]
+    # print(len(current_cache))
+    grads["dA" + str(L -1)], grads["dW" + str(L)], grads["db" + str(L)] = backward_nonlinear(dAL, current_cache, activation='sigmoid')
+
+    for l in reversed(range(L - 1)):
+        current_cache = caches[l]
+        dA = grads["dA" + str(l + 1)]
+        temp_dAprev, temp_dW, temp_db = backward_nonlinear(dA, current_cache, activation= "relu")
+        grads["dA" + str(l)] = temp_dAprev
+        grads["dW" + str(l + 1)] = temp_dW
+        grads["db" + str(l + 1)] = temp_db
+
+    return grads
 
 
+def update_params(parameters, grads, learning_rate):
+    """update parameters for gradient descent update
+    
+    parameters: dict
+    grads: dict
+    learning_rate: float"""
 
+    L = len(parameters) // 2
+    for l in range(1, L):
+        parameters["W" + str(l)] = parameters["W" + str(l)] - learning_rate * grads["dW" + str(l)]
+        parameters["b" + str(l)] = parameters["b" + str(l)] - learning_rate * grads["db" + str(l)]
+    
+    return parameters
+
+def predict(X, Y, parameters, threshold = 0.5):
+    """measure accuracy on the given data using the trained parameters
+    
+    params
+    ------
+    X: np.ndarray
+    Y: np.ndarray
+    parameters: dict
+    threshold: float"""
+    m = X.shape[1]
+    L = len(parameters) //2
+    predictions = np.zeros((1, m))
+
+    #forward_prop
+    probablities, caches = forward_propagation(X, parameters=parameters)
+
+    for i in range(0, probablities.shape[1]):
+        if probablities[0, i] > threshold:
+            predictions[0, i] = 1
+        else:
+            predictions[0, i] = 0
+    print("Accuracy: " + str(np.sum(predictions == Y)/m))
+    return predictions
 
 if __name__ == "__main__":
     #testing activation functions
