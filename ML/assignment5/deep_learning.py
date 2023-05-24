@@ -118,16 +118,9 @@ def L_layer_model(X, Y,
 
         parameters = update_params(parameters, grads, learning_rate)
 
-        # if iteration < len(table):
-        #     table[iteration][1] = cost
-        # else:
-        # row = [iteration, cost]
-        #     table.append(row)
-
         if print_cost and iter % 100 == 0 or iter == num_iterations - 1:
-
-            # # print("Cost after iteration {:04d}: {}".format(iter, np.squeeze(np.round(cost, 4))))
             print_cost_table(cost, iter, table, headers)
+            
         if iter % 100 == 0 or iter == num_iterations:
             costs.append(cost)
     return parameters, costs
