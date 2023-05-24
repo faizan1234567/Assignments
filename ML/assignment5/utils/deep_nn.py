@@ -265,7 +265,7 @@ def update_params(parameters, grads, learning_rate):
     
     return parameters
 
-def predict(X, Y, parameters, threshold = 0.5):
+def predict(X, Y, parameters, threshold = 0.5, print_acc = True):
     """measure accuracy on the given data using the trained parameters
     
     params
@@ -286,7 +286,8 @@ def predict(X, Y, parameters, threshold = 0.5):
             predictions[0, i] = 1
         else:
             predictions[0, i] = 0
-    print("Accuracy: " + str(np.sum(predictions == Y)/m))
+    if print_acc:
+        print("Accuracy: " + str(np.sum(predictions == Y)/m))
     return predictions
 
 if __name__ == "__main__":

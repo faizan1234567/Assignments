@@ -20,12 +20,8 @@ from PIL import Image
 from scipy import ndimage
 from utils.deep_nn import *
 import argparse
+from tabulate import tabulate
 
-#matplotlib variables for plotting...
-plt.rcParams['figure.figsize'] = (5.0, 4.0) # set default size of plots
-plt.rcParams['image.interpolation'] = 'nearest'
-plt.rcParams['image.cmap'] = 'gray'
-random.seed(1)
 
 def read_args():
     """command line args
@@ -33,14 +29,15 @@ def read_args():
     read some important variables such hyperparmeters and model setting
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', default = "/datasets", help = 'dataset dir')
+    parser.add_argument('--data', default = None, help = 'dataset dir')
     parser.add_argument('--lr', default = 0.001, type = float, help = 'learning rate value')
     parser.add_argument('--iterations', default = 5000, type = int, help = 'training iterations')
     parser.add_argument('--img', default= "/test_images/1.png", type = str, help= 'a test image')
     parser.add_argument('--label', default= None, type = int, help= "img label if given")
+    parser.add_argument('--default_data', action= "store_true", help= 'use default data for testing...')
     return parser.parse_args()
 
-def preprocess_dataset():
+def preprocess_dataset(print_info = True):
     """preprocess the dataset for training
     
     split the dataset into training and test sets
@@ -52,13 +49,6 @@ def preprocess_dataset():
     num_px = train_x_orig.shape[1]
     m_test = test_x_orig.shape[0]
 
-    print ("Number of training examples: " + str(m_train))
-    print ("Number of testing examples: " + str(m_test))
-    print ("Each image is of size: (" + str(num_px) + ", " + str(num_px) + ", 3)")
-    print ("train_x_orig shape: " + str(train_x_orig.shape))
-    print ("train_y shape: " + str(train_y.shape))
-    print ("test_x_orig shape: " + str(test_x_orig.shape))
-    print ("test_y shape: " + str(test_y.shape))
 
     train_x_flatten = train_x_orig.reshape(train_x_orig.shape[0], -1).T   # The "-1" makes reshape flatten the remaining dimensions
     test_x_flatten = test_x_orig.reshape(test_x_orig.shape[0], -1).T
@@ -66,12 +56,32 @@ def preprocess_dataset():
     # Standardize data to have feature values between 0 and 1.
     train_x = train_x_flatten/255.
     test_x = test_x_flatten/255.
-
-    print ("train_x's shape: " + str(train_x.shape))
-    print ("test_x's shape: " + str(test_x.shape))
+    if print_info:
+        print ("Number of training examples: " + str(m_train))
+        print ("Number of testing examples: " + str(m_test))
+        print ("Each image is of size: (" + str(num_px) + ", " + str(num_px) + ", 3)")
+        print ("train_x_orig shape: " + str(train_x_orig.shape))
+        print ("train_y shape: " + str(train_y.shape))
+        print ("test_x_orig shape: " + str(test_x_orig.shape))
+        print ("test_y shape: " + str(test_y.shape))
+        print ("train_x's shape: " + str(train_x.shape))
+        print ("test_x's shape: " + str(test_x.shape))
 
     return train_x, train_y, test_x, test_y, classes
 
+
+def print_cost_table(cost, iteration, table, headers):
+    """print cost in a nice table
+    
+    params
+    ------
+    cost: float
+    iterations: int"""
+
+    row = [f"{iteration:04d}", f"{cost:.4f}"]
+    table.append(row)
+
+    print(tabulate(table, headers, tablefmt="fancy_grid"))
 
 def L_layer_model(X, Y, 
                 layer_dims, 
@@ -92,7 +102,8 @@ def L_layer_model(X, Y,
     '''
     np.random.seed(1)
     costs = []
-
+    table = []
+    headers = ["Iterations", "Cost"]
     #initialize parameters
     parameters = initialize_deep_nn_parameters(layer_dims)
 
@@ -107,13 +118,22 @@ def L_layer_model(X, Y,
 
         parameters = update_params(parameters, grads, learning_rate)
 
+        # if iteration < len(table):
+        #     table[iteration][1] = cost
+        # else:
+        # row = [iteration, cost]
+        #     table.append(row)
+
         if print_cost and iter % 100 == 0 or iter == num_iterations - 1:
-            print("Cost after iteration {}: {}".format(iter, np.squeeze(cost)))
+
+            # # print("Cost after iteration {:04d}: {}".format(iter, np.squeeze(np.round(cost, 4))))
+            print_cost_table(cost, iter, table, headers)
         if iter % 100 == 0 or iter == num_iterations:
             costs.append(cost)
     return parameters, costs
 
-def test_on_image(image_path, img_label, parameters, num_px = 64):
+def test_on_image(image_path, img_label, parameters, num_px = 64, image_dir = None, 
+                  default_data = None, print_acc = False):
     """test model weights on an image
     
     params
@@ -121,16 +141,55 @@ def test_on_image(image_path, img_label, parameters, num_px = 64):
     image_path: str
     image_label: int [0] for non cat and [1] for cat
     """
+    IMAGES = []
+    INPUTS = []
+    INPUT_LABELS = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1]
     index_classes = {0: 'Not cat',
                      1: 'Cat'}
-    image = np.array(Image.open(image_path).resize((num_px, num_px)))
-    img = image/255
-    img = img.reshape((1, num_px * num_px * 3)).T
-    prediction = predict(img, img_label, parameters)
-    plt.imshow(image)
-    plt.title(f"Model prediction: {index_classes[int(prediction)]}")
-    plt.xticks([]), plt.yticks([])
-    plt.show()
+    if default_data:
+        train_x_orig, train_y, test_x_orig, test_y, classes = load_data()
+        train_x, _, test_x, _, _ = preprocess_dataset(print_info= False)
+        indices = [random.randint(0, test_x_orig.shape[0] - 1) for _ in range(16)]
+        k = 0 # for iterating over the images in teh folder.
+        fig, axes = plt.subplots(4, 4, figsize = (15, 10))
+        for i in range(len(indices)//4):
+            for j in range(len(indices)//4): 
+                axes[i, j].imshow(test_x_orig[indices[k]])
+                x = test_x[:, indices[k]].reshape(-1, 1)
+                y = test_y[:, indices[k]]
+                prediction = predict(x, y, parameters, print_acc= print_acc)
+                axes[i, j].set_title(f"Model prediction: {index_classes[int(prediction)]}")
+                axes[i, j].set_axis_off()
+                k+=1
+        plt.show()
+
+    elif image_dir is not None:
+        for img in os.listdir(image_dir):
+            img_path = os.path.join(image_dir, img)
+            image = np.array(Image.open(img_path).resize((num_px, num_px)))
+            img = image/255
+            img = img.reshape((1, num_px * num_px * 3)).T
+            IMAGES.append(image)
+            INPUTS.append(img)
+        fig, axes = plt.subplots(4, 4, figsize = (15, 10))
+        k = 0
+        for i in range(len(IMAGES)//4):
+            for j in range(len(IMAGES)//4): 
+                axes[i, j].imshow(IMAGES[k])
+                prediction = predict(INPUTS[k], INPUT_LABELS[k], parameters)
+                axes[i, j].set_title(f"Model prediction: {index_classes[int(prediction)]}")
+                axes[i, j].set_axis_off()
+                k+=1
+        plt.show()
+    else:
+        image = np.array(Image.open(image_path).resize((num_px, num_px)))
+        img = image/255
+        img = img.reshape((1, num_px * num_px * 3)).T
+        prediction = predict(img, img_label, parameters)
+        plt.imshow(image)
+        plt.title(f"Model prediction: {index_classes[int(prediction)]}")
+        plt.xticks([]), plt.yticks([])
+        plt.show()
 
 def plot_costs(costs, learning_rate=0.0075):
     plt.plot(np.squeeze(costs))
@@ -142,27 +201,45 @@ def plot_costs(costs, learning_rate=0.0075):
 
 def main():
     """everything goes here.."""
+    print('--'* 40)
+    print('Configuring parameters... \n')
     args = read_args()
     layer_dims = [12288, 20, 7, 5, 1]
     iterations = args.iterations
     lr = args.lr
+    if args.default_data:
+        data_flag = args.default_data
+    else:
+        data_flag = False
+
+    if args.data:
+        image_dir = args.data
+    else:
+        image_dir = None
     if args.img and args.label:
         test_image = args.img
         test_label = args.label
+    print('--'* 40)
+    print('Now Loading the dataset... \n')
     X_train, Y_train, X_test, Y_test, classes = preprocess_dataset()
+    print('--'* 40)
+    print('Starting training...\n')
     parameters, costs = L_layer_model(X_train, Y_train, layer_dims= layer_dims,
                                       learning_rate= lr, num_iterations= iterations, print_cost=True)
     plot_costs(costs, lr)
+    print('--'*40)
     print("Training accuracy: \n")
     pred_train = predict(X_train, Y_train, parameters)
     print()
+    print('--'*40)
     print('Test accuracy: \n')
     pred_test = predict(X_test, Y_test, parameters)
     print()
-
-    print('Test on an image..')
-    test_on_image(test_image, test_label, parameters, 64)
-    print('done')
+    print('--'*40)
+    print('Test on images..')
+    test_on_image(test_image, test_label, parameters, 64, image_dir= image_dir, default_data= data_flag)
+    print('All done!!!!')
+    print('--'* 40)
 
 if __name__ == "__main__":
     main()
