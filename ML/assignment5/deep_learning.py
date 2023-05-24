@@ -132,7 +132,7 @@ def L_layer_model(X, Y,
             costs.append(cost)
     return parameters, costs
 
-def test_on_image(image_path, img_label, parameters, num_px = 64, image_dir = None, 
+def test_on_image(parameters, num_px = 64, image_dir = None, 
                   default_data = None, print_acc = False):
     """test model weights on an image
     
@@ -181,15 +181,7 @@ def test_on_image(image_path, img_label, parameters, num_px = 64, image_dir = No
                 axes[i, j].set_axis_off()
                 k+=1
         plt.show()
-    else:
-        image = np.array(Image.open(image_path).resize((num_px, num_px)))
-        img = image/255
-        img = img.reshape((1, num_px * num_px * 3)).T
-        prediction = predict(img, img_label, parameters)
-        plt.imshow(image)
-        plt.title(f"Model prediction: {index_classes[int(prediction)]}")
-        plt.xticks([]), plt.yticks([])
-        plt.show()
+    
 
 def plot_costs(costs, learning_rate=0.0075):
     plt.plot(np.squeeze(costs))
@@ -237,7 +229,7 @@ def main():
     print()
     print('--'*40)
     print('Test on images..')
-    test_on_image(test_image, test_label, parameters, 64, image_dir= image_dir, default_data= data_flag)
+    test_on_image(parameters, 64, image_dir= image_dir, default_data= data_flag)
     print('All done!!!!')
     print('--'* 40)
 
