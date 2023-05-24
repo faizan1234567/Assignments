@@ -12,7 +12,7 @@ deep neural network sucessfully.
 ### Architecture
 The implementation supports any kind of architecture, you can define different model architectures to check the 
 performance. 
-![alt text](https://github.com/faizan1234567/Assignments/tree/main/ML/assignment5/images/nn.png)
+![alt text](https://github.com/faizan1234567/Assignments/blob/main/ML/assignment5/images/nn.png)
 
 ### Installation
 
