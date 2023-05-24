@@ -47,13 +47,13 @@ optional arguments:
 python deep_learning.py --iterations 1500 --lr 0.0075 --default_data
 ```
 This code will run the training and print cost vs iteration table, like the one below
-![alt text](https://github.com/faizan1234567/Assignments/tree/main/ML/assignment5/images/training_progress.png)
+![alt text](https://github.com/faizan1234567/Assignments/blob/main/ML/assignment5/images/training_progress.png)
 
 And some it will plot the cost as function of iterations
-![alt text](https://github.com/faizan1234567/Assignments/tree/main/ML/assignment5/images/Figure_1.png)
+![alt text](https://github.com/faizan1234567/Assignments/blob/main/ML/assignment5/images/Figure_1.png)
 
 ### Model prediction
 Model has been tested on a batch of imagse from the test set. Which pretty descent considering that we are not using
 regularization.
-![alt text](https://github.com/faizan1234567/Assignments/tree/main/ML/assignment5/images/Figure_2.png)
+![alt text]https://github.com/faizan1234567/Assignments/blob/main/ML/assignment5/images/Figure_2.png)
 
