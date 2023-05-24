@@ -3,3 +3,4 @@ matplotlib
 scipy
 h5py
 tabulate
+seaborn

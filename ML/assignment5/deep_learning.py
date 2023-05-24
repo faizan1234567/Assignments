@@ -21,6 +21,7 @@ from scipy import ndimage
 from utils.deep_nn import *
 import argparse
 from tabulate import tabulate
+import seaborn as sns
 
 
 def read_args():
@@ -177,10 +178,24 @@ def test_on_image(parameters, num_px = 64, image_dir = None,
     
 
 def plot_costs(costs, learning_rate=0.0075):
-    plt.plot(np.squeeze(costs))
-    plt.ylabel('cost')
-    plt.xlabel('iterations (per hundreds)')
-    plt.title("Learning rate =" + str(learning_rate))
+    # plt.plot(np.squeeze(costs))
+    # plt.ylabel('cost')
+    # plt.xlabel('iterations (per hundreds)')
+    # plt.title("Learning rate =" + str(learning_rate))
+    # plt.show()
+    # sns.set(style="ticks", palette="colorblind")
+
+    plt.figure(figsize=(10, 6))
+    sns.set_style("whitegrid")
+    sns.lineplot(data=np.squeeze(costs), color='navy', linewidth=2.5)
+    plt.title(f'Cost vs. Iterations with learning_rate {learning_rate}', fontsize=16)
+    plt.xlabel('Iterations', fontsize=12)
+    plt.ylabel('Cost', fontsize=12)
+    plt.xticks(fontsize=10)
+    plt.yticks(fontsize=10)
+    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.legend(['Cost'], loc='upper right', fontsize=10)
+    sns.despine()
     plt.show()
 
 
