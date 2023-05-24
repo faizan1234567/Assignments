@@ -55,5 +55,5 @@ And some it will plot the cost as function of iterations
 ### Model prediction
 Model has been tested on a batch of imagse from the test set. Which pretty descent considering that we are not using
 regularization.
-![alt text]https://github.com/faizan1234567/Assignments/blob/main/ML/assignment5/images/Figure_2.png)
+![alt text](https://github.com/faizan1234567/Assignments/blob/main/ML/assignment5/images/Figure_2.png)
 
