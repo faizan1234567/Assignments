@@ -5,3 +5,4 @@ __pycache__/
 *.docx
 *.json
 *.csv
+**/*.ipynb_checkpoints/
