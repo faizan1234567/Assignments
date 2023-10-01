@@ -28,7 +28,34 @@ Notice in the above image similar data points are close to each other and they f
 - if Regression problem, then return the mean of ```K``` labels
 - if Classification problem, then return the mode of ```K``` labels
 
+## Installation
+ ```bash
+ git clone https://github.com/faizan1234567/Assignments.git
+ cd Assignments/DL/
+```
+Create and activate Anaconda Environment
+```bash
+conda create -n knn python=3.9.0
+conda activate knn
+```
+Now install all the required dependencies
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+Installation Complete !
 
+## Usage
+To get play with data loading, run the following script
+```python
+python dataset.py -h
+```
+To train on your dataset
+```python
+python knn.py -h
+python knn.py -s 20 -k 3 --default
+```
+If you face any issue in installation and usage, please create an issue. If you have any ideas for improvments kindly create a PR.
 
 
 ## References
