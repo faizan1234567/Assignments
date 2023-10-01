@@ -13,7 +13,21 @@ The KNN algorithm assumes similar things exist in proximity. In simple words, si
 
 ![alt text](images/KNN.webp)
 
-Notice in the above image similar data points are close to each other and they form a pattern. In addition, there is a boundary between each group which separate one group from another. [3]
+Figure 2: KNN algorithm on a dataset [3]
+
+Notice in the above image similar data points are close to each other and they form a pattern. In addition, there is a boundary between each group which separate one group from another. [3] The complete alogrithm is follows:
+
+- Load the dataset
+- Initialize the value of ```K``` to chosen number of neighbors 
+- For ```each example``` in the dataset
+   - Calculate the distance between the query image and the training image in the dataset
+   - Add the distance and the index of the example to the ordered collection
+- Sort the ordered collection in ascending order by the distance value
+- Pick the first ```K``` entries from the sorted collection
+- Get the corresponding labels for the selected entries
+- if Regression problem, then return the mean of ```K``` labels
+- if Classification problem, then return the mode of ```K``` labels
+
 
 
 
