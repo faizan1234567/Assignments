@@ -25,7 +25,7 @@ if str(ROOT) not in sys.path:
 # create a logger to write logs in the file and stream on the terminal 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-if os.path.exits('/logs'):
+if os.path.exists('/logs'):
     pass
 else:
     os.makedirs('/logs')
