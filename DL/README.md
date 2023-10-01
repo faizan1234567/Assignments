@@ -59,6 +59,12 @@ If you face any issue in installation and usage, please create an issue. If you 
 
 **Note**: This assignment is under development, you may report some bugs by creating an issue. New set of featuers will be added and code will be updated ASAP. Please feel free to use it for testing and learning purposes. PRs always welcome. 
 
+## TODO
+- Custom dataset loading support
+- enhancing KNN by experimenting with different K values
+- Data visualizing features such confusion matrix and classification report
+
+
 ## References
 [1]	T. Ho-Phuoc, “CIFAR10 to Compare Visual Recognition Performance between Deep Neural Networks and Humans,” 2018, [Online]. Available: http://arxiv.org/abs/1811.07270
 
