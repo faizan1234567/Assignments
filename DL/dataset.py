@@ -73,12 +73,23 @@ def visualize_cifar10(x_test: np.ndarray, y_test: np.ndarray):
         8: 'ship',
         9: 'truck'
     }
-
-    sample_index = random.randint(1, len(x_test))
-    sample_image, sample_label = x_test[sample_index], y_test[sample_index]
-    plt.imshow(sample_image)
-    plt.title(class_map[int(sample_label[0])])
+    # TODO: create subplots of 5x5 first samples
+    fig, axes = plt.subplots(5, 5, figsize = (7, 10))
+    k = 0
+    for i in range(axes.shape[0]):
+        for j in range(axes.shape[1]):
+            axes[i, j].imshow(x_test[k])
+            axes[i, j].set_title(class_map[int(y_test[k][0])])
+            axes[i, j].axis('off')
+            k += 1
     plt.show()
+
+
+    # sample_index = random.randint(1, len(x_test))
+    # sample_image, sample_label = x_test[sample_index], y_test[sample_index]
+    # plt.imshow(sample_image)
+    # plt.title(class_map[int(sample_label[0])])
+    # plt.show()
 
     
 if __name__ == "__main__":
