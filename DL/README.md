@@ -57,6 +57,7 @@ python knn.py -s 20 -k 3 --default
 ```
 If you face any issue in installation and usage, please create an issue. If you have any ideas for improvments kindly create a PR.
 
+**Note**: This assignment is under development, you may report some bugs by creating an issue. New set of featuers will be added and code will be updated ASAP. Please feel free to use it for testing and learning purposes. PRs always welcome. 
 
 ## References
 [1]	T. Ho-Phuoc, “CIFAR10 to Compare Visual Recognition Performance between Deep Neural Networks and Humans,” 2018, [Online]. Available: http://arxiv.org/abs/1811.07270
