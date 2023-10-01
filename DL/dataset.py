@@ -17,6 +17,7 @@ from pathlib import Path
 import os
 import sys
 import random
+import pandas as pd
 
 # append root if doesn't exists in the system path
 ROOT = Path(__file__).resolve().parents[0]
@@ -45,6 +46,7 @@ def read_args():
     parser = argparse.ArgumentParser(description= "command line arguments option")
     parser.add_argument("-s", "--subset", default= 20, type = int,  
                         help = "set size of the subset dataset, by default its 20")
+    parser.add_argument('--visualize', action= 'store_true', help = 'visualize the dataset')
     opt = parser.parse_args()
     return opt
 
@@ -83,6 +85,45 @@ def visualize_cifar10(x_test: np.ndarray, y_test: np.ndarray):
             axes[i, j].axis('off')
             k += 1
     plt.show()
+
+def number2perent(required_images: int, total_size: int):
+    """
+    get the percentage of the images you want to retreive
+    -----------------------------------------------------
+    Parameters
+    ----------
+    required_images: desired images (int)
+    total_size: total size of the dataset(int)
+
+    Return
+    ------
+    percentage: float
+    """
+    return (required_images/total_size) * 100
+
+def create_subset(X: np.ndarray, y: np.ndarray, samples: int = 20):
+    """
+    create a subset of images and labels in the data frame format
+    -------------------------------------------------------------
+
+    X: total training images
+    y: total training labels
+    frac: percentage of data to be extracted if specifed
+    samples: number of samples to be used if frac not specifed.
+    """
+    # normalize images to 0 and 1
+    train_images = X/255.0
+
+    # create a small subset as specified by the assignmet descriptiom
+    df = pd.DataFrame(list(zip(train_images, y)), columns= ["image", "label"])
+    df_small = df.sample(n = samples) # specify frac = ... if you are using percentage
+    X_small = np.array([ i for i in list(df_small['image'])])
+    y_small = np.array([ [i[0]] for i in list(df_small['label'])])
+    return (X_small, y_small)
+    
+
+
+
     
 if __name__ == "__main__":
     # get command line args from the user
@@ -106,5 +147,8 @@ if __name__ == "__main__":
         9: 'truck'
     }
     logger.info('plotting a sample CIFAR10 test set.')
-    visualize_cifar10(x_test, y_test)
+    if args.visualize:
+        visualize_cifar10(x_test, y_test)
     
+    x_small, y_small = create_subset(x_test, y_test, 20)
+    print(x_small.shape, y_small.shape)
