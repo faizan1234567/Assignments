@@ -55,7 +55,7 @@ def read_args():
     opt = parser.parse_args()
     return opt
 
-def visualize_cifar10(x_test: np.ndarray, y_test: np.ndarray):
+def visualize_cifar10(x_test: np.ndarray, y_test: np.ndarray, class_map: dict = {}):
     """
     Visualize the samples in the CIFAR10 dataset 
     as part of data exploration and data preprocessing
@@ -67,19 +67,7 @@ def visualize_cifar10(x_test: np.ndarray, y_test: np.ndarray):
     y_test: test labels dataset (np.ndarray)
 
     """
-    # plot an image with the label
-    class_map = {
-        0: 'airplane',
-        1: 'automobile',
-        2: 'bird',
-        3: 'cat',
-        4: 'deer',
-        5: 'dog',
-        6: 'frog',
-        7: 'horse',
-        8: 'ship',
-        9: 'truck'
-    }
+    # plot an images with the labels
     # increae k initialization to get other samples set
     fig, axes = plt.subplots(5, 5, figsize = (10 , 8))
     k = 0
@@ -153,9 +141,9 @@ if __name__ == "__main__":
     }
     if args.visualize:
         logger.info('Plotting a sample CIFAR10 dataset')
-        visualize_cifar10(x_test, y_test)
+        visualize_cifar10(x_test, y_test, class_map=class_map)
     
     logger.info(f'Creating a subset of {args.subset} samples')
     x_small, y_small = create_subset(x_test, y_test, args.subset)
     # verify shapes
-    print(x_small.shape, y_small.shape)
+    logger.info(f'total images: {len(x_small)}, total labels: {len(y_small)}')
