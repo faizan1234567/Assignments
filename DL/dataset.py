@@ -83,14 +83,6 @@ def visualize_cifar10(x_test: np.ndarray, y_test: np.ndarray):
             axes[i, j].axis('off')
             k += 1
     plt.show()
-
-
-    # sample_index = random.randint(1, len(x_test))
-    # sample_image, sample_label = x_test[sample_index], y_test[sample_index]
-    # plt.imshow(sample_image)
-    # plt.title(class_map[int(sample_label[0])])
-    # plt.show()
-
     
 if __name__ == "__main__":
     # get command line args from the user
