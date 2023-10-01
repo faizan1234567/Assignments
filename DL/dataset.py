@@ -73,7 +73,7 @@ def visualize_cifar10(x_test: np.ndarray, y_test: np.ndarray):
         8: 'ship',
         9: 'truck'
     }
-    # TODO: create subplots of 5x5 first samples
+    # increae k initialization to get other samples set
     fig, axes = plt.subplots(5, 5, figsize = (7, 10))
     k = 0
     for i in range(axes.shape[0]):
