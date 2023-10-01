@@ -16,6 +16,7 @@ import logging
 from pathlib import Path
 import os
 import sys
+import random
 
 # append root if doesn't exists in the system path
 ROOT = Path(__file__).resolve().parents[0]
@@ -47,17 +48,60 @@ def read_args():
     opt = parser.parse_args()
     return opt
 
+def visualize_cifar10(x_test: np.ndarray, y_test: np.ndarray):
+    """
+    Visualize the samples in the CIFAR10 dataset 
+    as part of data exploration and data preprocessing
+    --------------------------------------------------
 
+    Parameters
+    ----------
+    x_test: test image dataset (np.ndarray)
+    y_test: test labels dataset (np.ndarray)
 
+    """
+    # plot an image with the label
+    class_map = {
+        0: 'airplane',
+        1: 'automobile',
+        2: 'bird',
+        3: 'cat',
+        4: 'deer',
+        5: 'dog',
+        6: 'frog',
+        7: 'horse',
+        8: 'ship',
+        9: 'truck'
+    }
 
+    sample_index = random.randint(1, len(x_test))
+    sample_image, sample_label = x_test[sample_index], y_test[sample_index]
+    plt.imshow(sample_image)
+    plt.title(class_map[int(sample_label[0])])
+    plt.show()
 
-
-
-
+    
 if __name__ == "__main__":
     # get command line args from the user
     args = read_args()
 
     # get cifar10 dataset
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-    print(type(x_train))
+
+    # plot an image with the label
+    # cifar 10 label index dict
+    class_map = {
+        0: 'airplane',
+        1: 'automobile',
+        2: 'bird',
+        3: 'cat',
+        4: 'deer',
+        5: 'dog',
+        6: 'frog',
+        7: 'horse',
+        8: 'ship',
+        9: 'truck'
+    }
+    logger.info('plotting a sample CIFAR10 test set.')
+    visualize_cifar10(x_test, y_test)
+    
