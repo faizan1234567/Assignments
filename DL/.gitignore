@@ -4,3 +4,4 @@ __pycache__/
 *.pth
 *.pt
 *.docx
+logs/

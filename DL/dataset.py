@@ -27,15 +27,20 @@ if str(ROOT) not in sys.path:
 # create a logger to write logs in the file and stream on the terminal 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-if os.path.exists('/logs'):
+if os.path.exists('logs'):
     pass
 else:
-    os.makedirs('/logs')
-file_handler = logging.FileHandler('/logs/all_logs.log')
+    os.makedirs('logs')
+
+file_handler = logging.FileHandler('logs/all_logs.log')
 stream_handler = logging.StreamHandler()
 formatter = logging.Formatter(fmt= "%(asctime)s: %(message)s", datefmt= '%Y-%m-%d %H:%M:%S')
 file_handler.setFormatter(formatter)
 stream_handler.setFormatter(formatter)
+
+logger.addHandler(stream_handler)
+logger.addHandler(file_handler)
+
 
 # read command line arguments
 def read_args():
@@ -76,7 +81,7 @@ def visualize_cifar10(x_test: np.ndarray, y_test: np.ndarray):
         9: 'truck'
     }
     # increae k initialization to get other samples set
-    fig, axes = plt.subplots(5, 5, figsize = (7, 10))
+    fig, axes = plt.subplots(5, 5, figsize = (10 , 8))
     k = 0
     for i in range(axes.shape[0]):
         for j in range(axes.shape[1]):
@@ -129,7 +134,7 @@ if __name__ == "__main__":
     # get command line args from the user
     args = read_args()
 
-    # get cifar10 dataset
+    # get cifar10 dataset from TensorFlow's Keras
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
 
     # plot an image with the label
@@ -146,9 +151,9 @@ if __name__ == "__main__":
         8: 'ship',
         9: 'truck'
     }
-    logger.info('plotting a sample CIFAR10 test set.')
     if args.visualize:
+        logger.info('Plotting a sample CIFAR10 dataset')
         visualize_cifar10(x_test, y_test)
     
-    x_small, y_small = create_subset(x_test, y_test, 20)
-    print(x_small.shape, y_small.shape)
+    logger.info(f'Creating a subset of {args.subset} samples')
+    x_small, y_small = create_subset(x_test, y_test, args.subset)
