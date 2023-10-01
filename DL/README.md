@@ -64,6 +64,8 @@ If you face any issue in installation and usage, please create an issue. If you 
 - enhancing KNN by experimenting with different K values
 - Data visualizing features such confusion matrix and classification report
 
+## Disclaimer
+The purpose of open sourcing this repository for those who want to learn and they are stuck in implementation, aim of this repo is to speed up their development. 
 
 ## References
 [1]	T. Ho-Phuoc, “CIFAR10 to Compare Visual Recognition Performance between Deep Neural Networks and Humans,” 2018, [Online]. Available: http://arxiv.org/abs/1811.07270
