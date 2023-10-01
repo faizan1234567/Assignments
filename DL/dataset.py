@@ -157,3 +157,5 @@ if __name__ == "__main__":
     
     logger.info(f'Creating a subset of {args.subset} samples')
     x_small, y_small = create_subset(x_test, y_test, args.subset)
+    # verify shapes
+    print(x_small.shape, y_small.shape)
