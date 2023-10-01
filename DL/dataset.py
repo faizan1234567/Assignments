@@ -57,3 +57,7 @@ def read_args():
 if __name__ == "__main__":
     # get command line args from the user
     args = read_args()
+
+    # get cifar10 dataset
+    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+    print(type(x_train))
