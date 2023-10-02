@@ -99,6 +99,7 @@ def KNN_sklearn(X: np.ndarray, y: np.ndarray, k: int = 3, query: np.ndarray = No
     query: a query image
 
     """
+    # you may use different values of K
     classifier = KNeighborsClassifier(n_neighbors= k)
     num_images, height, width, channels = X.shape
     X = X.reshape(num_images, -1)
