@@ -99,12 +99,12 @@ def KNN_sklearn(X: np.ndarray, y: np.ndarray, k: int = 3, query: np.ndarray = No
     query: a query image
 
     """
-    neigh = KNeighborsClassifier(n_neighbors= k)
+    classifier = KNeighborsClassifier(n_neighbors= k)
     num_images, height, width, channels = X.shape
     X = X.reshape(num_images, -1)
     query = query.reshape(1, -1)
-    neigh.fit(X, y)
-    prediction = neigh.predict(query)
+    classifier.fit(X, y)
+    prediction = classifier.predict(query)
     return prediction
 
 def eculidean_dist(img1: np.ndarray, img2: np.ndarray):
