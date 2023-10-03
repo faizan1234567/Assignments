@@ -13,3 +13,4 @@ For more information please see docs in the ML and CV directories.
 ## Courses
 - machine learning
 - computer vision
+- deep learning
