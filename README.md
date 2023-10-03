@@ -11,5 +11,6 @@ cd Assignments
 For more information please see docs in the ML and CV directories.
 
 ## Courses
+- machine learning
 
 
