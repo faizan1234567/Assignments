@@ -18,4 +18,4 @@ For more information please see docs in the ML and CV directories.
 please read more information about the relevant subjects in their corresponding directories.
 
 ## Disclaimer
-This is for the help not intended to provided solution, you may use it for help and hint purposes. 
+This is for the help not intended to provided solution, you may use it for help and hint purposes..
