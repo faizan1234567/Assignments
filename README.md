@@ -14,3 +14,5 @@ For more information please see docs in the ML and CV directories.
 - machine learning
 - computer vision
 - deep learning
+
+please read more information about the relevant subjects in their corresponding directories.
