@@ -18,6 +18,7 @@ import os
 import sys
 import random
 import pandas as pd
+from utils import *
 
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -91,4 +92,10 @@ if __name__ == "__main__":
     class_map = {
         0: 'non-cat',
         1: 'cat' }
+    
+    #TODO: data loading testing.
+    transfromations = image_transforms(args.img, kind = 'train')
+    print(transfromations)
+
+
     

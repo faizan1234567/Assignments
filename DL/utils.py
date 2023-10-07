@@ -20,7 +20,7 @@ import random
 import pandas as pd
 
 import torch, torchvision
-from torchvision import datasets, transfroms
+from torchvision import datasets, transforms
 
 # visualization function
 def visualize_cifar10(x_test: np.ndarray, y_test: np.ndarray, class_map: dict = {}):
@@ -86,26 +86,26 @@ def create_subset(X: np.ndarray, y: np.ndarray, samples: int = 20):
 
 
 
-def image_transforms(cfg: dict  = {}, 
+def image_transforms(img: int = 224,
                      kind = 'train'):
     """
     transfrom the image into a suitable format for preprocessing
     ------------------------------------------------------------
-    cfg: dict (configurations)
+    img: int (image size)
     kind: str (use training or testing phase)
 
     """
     # add more augmentataion or transforms options as per the need.
     if kind == 'train':
         transforms = torchvision.transforms.Compose([
-            transfroms.Resize(224), 
+            transfroms.Resize(img), 
             transforms.ToTensor(),
             transforms.Normalize(mean = [0.485, 0.456, 0.406], 
                                  std =  [0.229, 0.224, 0.225])
         ])
     else:
         transforms = torchvision.transforms.Compose([
-            transforms.Resize(224),
+            transforms.Resize(img),
             transforms.ToTesnor(),
             transforms.Normalize(mean = [0.485, 0.456, 0.406], 
                                  std =  [0.229, 0.224, 0.225])
