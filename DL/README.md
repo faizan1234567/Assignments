@@ -125,6 +125,9 @@ The results are reported on ```30``` images (```24``` of them used for training)
 
 Table: experimental resluts
 
+## Discussion
+There are total of 30 images on which model has been trained. The dataset is not enough to capture the each and every scenario. Furthermore, the algorithm is not robust enough
+to learn rich information. It is most simple algorithm in machine learning, which is based on L1 or L2 distance and voting strategy. In addition, images size is compressed to 32x32x3 to reduce the number of computations on the cpu. So by compressing the size of an image might cause loss of information. 
 
 ## Disclaimer
 The purpose of open sourcing this repository for those who want to learn and they are stuck in implementation, aim of this repo is to speed up their development. 
