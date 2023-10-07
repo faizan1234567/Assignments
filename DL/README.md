@@ -97,7 +97,7 @@ The results are reported on ```30``` images (```24``` of them used for training)
 **Euclidean Distance**
 
 <table>
-<tr><th>Macro Avearge </th><th>Weighted Avearage </th></tr>
+<tr><th>Macro Average </th><th>Weighted Average </th></tr>
 <tr><td>
 
 | K value | Precision| Recall | F1-score | Accuracy |
