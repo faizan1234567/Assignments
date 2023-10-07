@@ -95,6 +95,22 @@ def image_transforms(cfg: dict  = {},
     kind: str (use training or testing phase)
 
     """
+    # add more augmentataion or transforms options as per the need.
+    if kind == 'train':
+        transforms = torchvision.transforms.Compose([
+            transfroms.Resize(224), 
+            transforms.ToTensor(),
+            transforms.Normalize(mean = [], 
+                                 std = [])
+        ])
+    else:
+        transforms = torchvision.transforms.Compose([
+            transforms.Resize(224),
+            transforms.ToTesnor(),
+            transforms.Normalize(mean = [], 
+                                 std = [])
+        ])
+    return transforms
     
 
 
