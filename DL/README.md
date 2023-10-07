@@ -139,3 +139,5 @@ The purpose of open sourcing this repository for those who want to learn and the
 
 [3] O. Harrison, “machine learning with K Nearest Neighbor algorithm.” 2018. [Online]. Available: https://towardsdatascience.com/machine-learning-basics-with-the-k-nearest-neighbors-algorithm-6a6e71d01761
 
+[4] Adrian, “KNN image classification.” [Online]. Available: https://pyimagesearch.com/2021/04/17/your-first-image-classifier-using-k-nn-to-classify-images/#:~:text=The k-NN algorithm classifies,“votes” for each label.
+
