@@ -173,6 +173,8 @@ if __name__ == "__main__":
     logger.info("Now running training.")
     KNN_sklearn(images= images, labels= labels, k = args.k, split = args.split_size, 
                 distance = "manhatten" if args.manhatten else "Euclidean")
+    
+    logger.info("All done")
 
 
     
