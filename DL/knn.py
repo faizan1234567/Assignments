@@ -137,11 +137,13 @@ def KNN_sklearn(images, labels, k: int = 3, split: float = 0.2,
     # now flatten the images to have (m, n)
     # where m is number of samples and n is features such as pixels intensities (32x32x3)
     images_processed = images_np.reshape(images_np.shape[0], -1)
+    labels_processed = labels_np.reshape(labels_np.shape[0], -1)
     
     # now split the dataset into traini and test
-    (trainX, testX, trainY, testY) = train_test_split(images_processed, labels_np, test_size = split,
+    (trainX, testX, trainY, testY) = train_test_split(images_processed, labels_processed, test_size = split,
                                                       random_state= 42)
-    print('processed.')
+    # TODO: train KNN classifer and get classification report on the dataset.
+
     # classifier.fit(X, y)
     # prediction = classifier.predict(query)
     # return prediction
@@ -157,14 +159,15 @@ if __name__ == "__main__":
 
     # read the dataset
     logger.info('Loading the Custom dataset')
-    data_loader = load_dataset(images= args.data, batch_size= args.batch, 
-                               shuffle= False, transforms= transformations if args.transfroms else None)
+    data_loader = load_dataset(images = args.data, batch_size = args.batch, 
+                               shuffle= False, transforms= transformations if args.transform else None)
     # split the images and the labels
     images, labels = next(iter(data_loader))
     class_to_idx = data_loader.dataset.class_to_idx
     logger.info(f"The datast classes information: {class_to_idx}")
 
     # now run the trainner on the dataset
+    KNN_sklearn(images= images, labels= labels, k = args.k, split = args.split_size)
 
 
     
