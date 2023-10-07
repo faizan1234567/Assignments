@@ -64,6 +64,21 @@ If you face any issue in installation and usage, please create an issue. If you 
 - enhancing KNN by experimenting with different K values
 - Data visualizing features such confusion matrix and classification report
 
+## Ablation Study
+The results are reported on ```30``` images (```24``` of them used for training) and rest of them used for evaluation. In this study, two distance metrics are considered such as Manhatten distance and euclidean distance. Value of K (nearest neighbours ) were varied between ```1 - 5``` to check the model performance. In this study, precision, recall, f1-score, and accuracy are considered as model performance measurement metrics. We are considering Macro average and weighted avearge.
+
+| K value | Precision| Recall | F1-score | Accuracy |
+|----------|----------|----------|----------|----------|
+| 1 | 0.61 | 0.5  |0.52| 0.5 |
+| 2 | 0.61 |  0.5 |0.52| 0.5 |
+| 3 | 0.47 | 0.5  |0.41| 0.5 |
+| 4 | 0.47 | 0.5  |0.41| 0.5 |
+| 5 | 0.5  | 0.67 |0.56| 0.67|
+
+Table 1: Macro avearge
+
+
+
 ## Disclaimer
 The purpose of open sourcing this repository for those who want to learn and they are stuck in implementation, aim of this repo is to speed up their development. 
 
