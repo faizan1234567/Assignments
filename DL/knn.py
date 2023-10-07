@@ -153,7 +153,7 @@ def KNN_sklearn(images, labels, k: int = 3, split: float = 0.2,
 
 
 
-# TODO: code needs to be tested  with different values of K. (PENDING)
+# DONE: code needs to be tested  with different values of K. (PENDING)
 # DONE: custom data loading and processing option should be added.
 if __name__ == "__main__":
     # configs
