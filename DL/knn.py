@@ -24,6 +24,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from dataset import *
 from utils import *
+from sklearn.metrics import classification_report
 
 # append root if doesn't exists in the system path
 ROOT = Path(__file__).resolve().parents[0]
@@ -67,6 +68,7 @@ def read_args():
     parser.add_argument('--batch', type = int, default=30, help = 'batch size')
     parser.add_argument('--report', action= 'store_true', help = 'print results report')
     parser.add_argument('--transform', action= "store_true", help = "dataset transforms options")
+    parser.add_argument('--manhatten', action= 'store_true', help= "use manhatten distance")
     opt = parser.parse_args()
     return opt
 
@@ -99,7 +101,7 @@ def KNN_scratch(data, query, K = 3, dist_fn = None, choice_fn= None):
 
 # Scikit-Learn implemenation of KNN algorithm
 def KNN_sklearn(images, labels, k: int = 3, split: float = 0.2,
-                distance: str = "Eculidean"):
+                distance: str = "Eculidean", report: bool = True):
     """
     Sklearn's KNN classifier on the classification dataset containing
     three classes such as cat, car, and dog.
@@ -124,9 +126,9 @@ def KNN_sklearn(images, labels, k: int = 3, split: float = 0.2,
     """
     # you may use different values of K, p =2 is euclidean distance
     if distance == "Euclidean":
-        classifier = KNeighborsClassifier(n_neighbors= k, p = 2) # p = 1 (manhatten distance)
+        classifier = KNeighborsClassifier(n_neighbors= k, p = 2, n_jobs= 4) # p = 1 (manhatten distance)
     else:
-        classifier = KNeighborsClassifier(n_neighbors= k, p = 1)
+        classifier = KNeighborsClassifier(n_neighbors= k, p = 1, n_jobs= 4)
     
     # prepare the dataset
     # channel last conversion, in pytorch natively it was channel first
@@ -144,9 +146,10 @@ def KNN_sklearn(images, labels, k: int = 3, split: float = 0.2,
                                                       random_state= 42)
     # TODO: train KNN classifer and get classification report on the dataset.
 
-    classifier.fit(trainX, trainY)
-    # prediction = classifier.predict(query)
-    # return prediction
+    classifier.fit(trainX, trainY.ravel())
+    if report:
+        logger.info("classification results: \n" + classification_report(testY, classifier.predict(testX),
+        target_names= ["car", "cat", "dog"]))
 
 
 
@@ -167,7 +170,9 @@ if __name__ == "__main__":
     logger.info(f"The datast classes information: {class_to_idx}")
 
     # now run the trainner on the dataset
-    KNN_sklearn(images= images, labels= labels, k = args.k, split = args.split_size)
+    logger.info("Now running training.")
+    KNN_sklearn(images= images, labels= labels, k = args.k, split = args.split_size, 
+                distance = "manhatten" if args.manhatten else "Euclidean")
 
 
     
