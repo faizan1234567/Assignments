@@ -90,7 +90,7 @@ if __name__ == "__main__":
     # get command line args from the user
     args = read_args()
 
-    # cifar 10 label index dict
+    # custom dataset label index dict
     class_map = {
         0: 'non-cat',
         1: 'cat' }
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     transformations = image_transforms(args.img, kind = 'train')
     logger.info(f'Loading the dataset with {args.img} size')
     train_loader = load_dataset(args.data, batch_size= args.batch, 
-                                shuffle= False, transform= transformations)
+                                shuffle= True, transforms= transformations)
     image, labels = next(iter(train_loader))
     print(image.shape, labels)
     print(train_loader.dataset.class_to_idx)
