@@ -58,7 +58,7 @@ def read_args():
     parser.add_argument('--img', type = int, default= 224, help = "input image size")
     parser.add_argument('--transform', action= 'store_true', help = "apply transforms to the image")
     parser.add_argument('--visualize', action= 'store_true', help = 'visualize the dataset')
-    parser.add_argument('--dataset', type = str, default= 'dataset/', help = ' path to the dataset directory')
+    parser.add_argument('--data', type = str, default= 'dataset/', help = ' path to the dataset directory')
     parser.add_argument('--batch', type = int, default= 1, help = 'batch size')
     opt = parser.parse_args()
     return opt
@@ -68,7 +68,7 @@ def read_args():
 def load_dataset(images: str = "dataset/", 
                  batch_size: int = 1, 
                  shuffle: bool = False, 
-                 transform = None):
+                 transforms = None):
     """
     Load the image dataset from the specified directories
     -----------------------------------------------------
@@ -77,7 +77,7 @@ def load_dataset(images: str = "dataset/",
     shuffle: bool
     transform: torchvision.transforms
     """
-    dataset = datasets.ImageFolder('path/to/data', transform=transform)
+    dataset = datasets.ImageFolder(images, transform=transforms)
     loader = DataLoader(dataset, batch_size = batch_size, 
                         shuffle = shuffle, pin_memory= True, 
                         num_workers= 4)
@@ -98,10 +98,11 @@ if __name__ == "__main__":
     #TODO: data loading testing.
     transformations = image_transforms(args.img, kind = 'train')
     logger.info(f'Loading the dataset with {args.img} size')
-    train_loader = load_dataset(args.dataset, batch_size= args.batch, 
+    train_loader = load_dataset(args.data, batch_size= args.batch, 
                                 shuffle= False, transform= transformations)
     image, labels = next(iter(train_loader))
-    print(image, labels)
+    print(image.shape, labels)
+    print(train_loader.dataset.class_to_idx)
 
 
     

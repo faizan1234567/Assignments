@@ -98,14 +98,14 @@ def image_transforms(img: int = 224,
     # add more augmentataion or transforms options as per the need.
     if kind == 'train':
         transformations = torchvision.transforms.Compose([
-            transforms.Resize(img), 
+            transforms.Resize([img, img]), 
             transforms.ToTensor(),
             transforms.Normalize(mean = [0.485, 0.456, 0.406], 
                                  std =  [0.229, 0.224, 0.225])
         ])
     else:
         transformations = torchvision.transforms.Compose([
-            transforms.Resize(img),
+            transforms.Resize([img, img]),
             transforms.ToTesnor(),
             transforms.Normalize(mean = [0.485, 0.456, 0.406], 
                                  std =  [0.229, 0.224, 0.225])
