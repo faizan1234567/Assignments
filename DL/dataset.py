@@ -19,6 +19,11 @@ import sys
 import random
 import pandas as pd
 
+import torch
+from torch.utils.data import Dataset, DataLoader
+from torchvision import datasets
+
+
 # append root if doesn't exists in the system path
 ROOT = Path(__file__).resolve().parents[0]
 if str(ROOT) not in sys.path:
@@ -49,11 +54,32 @@ def read_args():
     --------------------------
     """
     parser = argparse.ArgumentParser(description= "command line arguments option")
-    parser.add_argument("-s", "--subset", default= 20, type = int,  
-                        help = "set size of the subset dataset, by default its 20")
+    parser.add_argument('--img', type = int, default= 224, help = "input image size")
+    parser.add_argument('--transform', action= 'store_true', help = "apply transforms to the image")
     parser.add_argument('--visualize', action= 'store_true', help = 'visualize the dataset')
     opt = parser.parse_args()
     return opt
+
+
+
+def load_dataset(images: str = "dataset/", 
+                 batch_size: int = 1, 
+                 shuffle: bool = False, 
+                 transform = None):
+    """
+    Load the image dataset from the specified directories
+    -----------------------------------------------------
+    images: str 
+    batch_size: int
+    shuffle: bool
+    transform: torchvision.transforms
+    """
+    dataset = datasets.ImageFolder('path/to/data', transform=transform)
+    loader = DataLoader(dataset, batch_size = batch_size, 
+                        shuffle = shuffle, pin_memory= True, 
+                        num_workers= 4)
+    return loader
+
 
 
      

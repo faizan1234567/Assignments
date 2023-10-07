@@ -19,6 +19,9 @@ import sys
 import random
 import pandas as pd
 
+import torch, torchvision
+from torchvision import datasets, transfroms
+
 # visualization function
 def visualize_cifar10(x_test: np.ndarray, y_test: np.ndarray, class_map: dict = {}):
     """
@@ -80,5 +83,18 @@ def create_subset(X: np.ndarray, y: np.ndarray, samples: int = 20):
     X_small = np.array([ i for i in list(df_small['image'])])
     y_small = np.array([ [i[0]] for i in list(df_small['label'])])
     return (X_small, y_small)
+
+
+
+def image_transforms(cfg: dict  = {}, 
+                     kind = 'train'):
+    """
+    transfrom the image into a suitable format for preprocessing
+    ------------------------------------------------------------
+    cfg: dict (configurations)
+    kind: str (use training or testing phase)
+
+    """
+    
 
 
