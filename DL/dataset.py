@@ -95,7 +95,7 @@ if __name__ == "__main__":
         0: 'non-cat',
         1: 'cat' }
     
-    #TODO: data loading testing.
+    # load the dataset
     transformations = image_transforms(args.img, kind = 'train')
     logger.info(f'Loading the dataset with {args.img} size')
     train_loader = load_dataset(args.data, batch_size= args.batch, 
