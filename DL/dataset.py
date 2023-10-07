@@ -58,6 +58,8 @@ def read_args():
     parser.add_argument('--img', type = int, default= 224, help = "input image size")
     parser.add_argument('--transform', action= 'store_true', help = "apply transforms to the image")
     parser.add_argument('--visualize', action= 'store_true', help = 'visualize the dataset')
+    parser.add_argument('--dataset', type = str, default= 'dataset/', help = ' path to the dataset directory')
+    parser.add_argument('--batch', type = int, default= 1, help = 'batch size')
     opt = parser.parse_args()
     return opt
 
@@ -94,8 +96,12 @@ if __name__ == "__main__":
         1: 'cat' }
     
     #TODO: data loading testing.
-    transfromations = image_transforms(args.img, kind = 'train')
-    print(transfromations)
+    transformations = image_transforms(args.img, kind = 'train')
+    logger.info(f'Loading the dataset with {args.img} size')
+    train_loader = load_dataset(args.dataset, batch_size= args.batch, 
+                                shuffle= False, transform= transformations)
+    image, labels = next(iter(train_loader))
+    print(image, labels)
 
 
     
