@@ -61,28 +61,8 @@ if __name__ == "__main__":
     # get command line args from the user
     args = read_args()
 
-    # get cifar10 dataset from TensorFlow's Keras
-    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-
-    # plot an image with the label
     # cifar 10 label index dict
     class_map = {
-        0: 'airplane',
-        1: 'automobile',
-        2: 'bird',
-        3: 'cat',
-        4: 'deer',
-        5: 'dog',
-        6: 'frog',
-        7: 'horse',
-        8: 'ship',
-        9: 'truck'
-    }
-    if args.visualize:
-        logger.info('Plotting a sample CIFAR10 dataset')
-        visualize_cifar10(x_test, y_test, class_map=class_map)
+        0: 'non-cat',
+        1: 'cat' }
     
-    logger.info(f'Creating a subset of {args.subset} samples')
-    x_small, y_small = create_subset(x_test, y_test, args.subset)
-    # verify shapes
-    logger.info(f'total images: {len(x_small)}, total labels: {len(y_small)}')
