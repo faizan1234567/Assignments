@@ -93,7 +93,35 @@ The results are reported on ```30``` images (```24``` of them used for training)
 
 </td></tr> </table>
 
-Table 1: Macro avearge
+**Euclidean Distance**
+
+table>
+<tr><th>Macro Avearge </th><th>Weighted Avearage </th></tr>
+<tr><td>
+
+| K value | Precision| Recall | F1-score | Accuracy |
+|----------|----------|----------|----------|----------|
+| 1 | 0.61 | 0.5  |0.52| 0.5 |
+| 2 | 0.61 | 0.5  |0.52| 0.5 |
+| 3 | 0.47 | 0.5  |0.41| 0.5 |
+| 4 | 0.47 | 0.5  |0.41| 0.5 |
+| 5 | 0.5  | 0.5  |0.44| 0.5 |
+| 6 | 0.5  | 0.67 |0.56| 0.67|
+| 7 | 0.5  | 0.67 |0.56| 0.67|
+</td><td>
+
+| K value | Precision| Recall | F1-score | Accuracy |
+|----------|----------|----------|----------|----------|
+| 1 | 0.61 | 0.5  |0.52| 0.5 |
+| 2 | 0.61 | 0.5  |0.52| 0.5 |
+| 3 | 0.47 | 0.5  |0.41| 0.5 |
+| 4 | 0.47 | 0.5  |0.41| 0.5 |
+| 5 | 0.5  | 0.5  |0.44| 0.5 |
+| 6 | 0.5  | 0.67 |0.56| 0.67|
+| 7 | 0.5  | 0.67 |0.56| 0.67|
+</td></tr> </table>
+
+Table: experimental resluts
 
 
 ## Disclaimer
