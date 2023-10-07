@@ -1,3 +1,3 @@
-- TO CREATE A SUBSET OF THE CIFAR 10 DATASET
-- USE KNN ALGORITHM ON THE DATASET TO CREATE SOME RESULTS
-- CREATE A NICE README FILE
+- Load the image dataset from the camera for training and evaluation
+- USE KNN ALGORITHM ON the dataset from the SKlearn libraray
+- Create a results file and classification report
