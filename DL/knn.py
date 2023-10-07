@@ -21,6 +21,9 @@ import argparse
 from collections import Counter
 from dataset import visualize_cifar10, create_subset
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from dataset import *
+from utils import *
 
 # append root if doesn't exists in the system path
 ROOT = Path(__file__).resolve().parents[0]
@@ -52,15 +55,22 @@ def read_args():
     --------------------------
     """
     parser = argparse.ArgumentParser(description= "command line arguments option")
-    parser.add_argument("-s", "--subset", default= 20, type = int,  
-                        help = "set size of the subset dataset, by default its 20")
-    parser.add_argument('-k', "--k", default=3, type = int, 
+    parser.add_argument("--k", default=3, type = int, required= True,
                         help = "the value of K for algorithm")
     parser.add_argument('--default', action= 'store_true', help = 'use sklearns implementation')
+    parser.add_argument('--split_size', type = float, default= 0.2, required= True,
+                        help= "dataset split ratio")
+    parser.add_argument('--img', type = int, default= 32, required= True,
+                        help= 'image size')
+    parser.add_argument('--data', type = str, default= "dataset/", required=True,
+                        help = "dataset path")
+    parser.add_argument('--batch', type = int, default=30, help = 'batch size')
+    parser.add_argument('--report', action= 'store_true', help = 'print results report')
+    parser.add_argument('--transform', action= "store_true", help = "dataset transforms options")
     opt = parser.parse_args()
     return opt
 
-def KNN(data, query, K = 3, dist_fn = None, choice_fn= None):
+def KNN_scratch(data, query, K = 3, dist_fn = None, choice_fn= None):
     """
     Implementation of KNN algorithm from scrath
     -------------------------------------------
@@ -87,80 +97,76 @@ def KNN(data, query, K = 3, dist_fn = None, choice_fn= None):
 
     return k_nearest_neighbours_and_indices, choice_fn(k_nearest_labels)
 
-def KNN_sklearn(X: np.ndarray, y: np.ndarray, k: int = 3, query: np.ndarray = None):
+# Scikit-Learn implemenation of KNN algorithm
+def KNN_sklearn(images, labels, k: int = 3, split: float = 0.2,
+                distance: str = "Eculidean"):
     """
-    Sklearn's KNN classifier
-    -----------------------
-    Parameters
-    ---------
-    X: training images
-    y: labels
-    k: n neighbors
-    query: a query image
-
-    """
-    # you may use different values of K
-    classifier = KNeighborsClassifier(n_neighbors= k)
-    num_images, height, width, channels = X.shape
-    X = X.reshape(num_images, -1)
-    query = query.reshape(1, -1)
-    classifier.fit(X, y)
-    prediction = classifier.predict(query)
-    return prediction
-
-def eculidean_dist(img1: np.ndarray, img2: np.ndarray):
-    """
-    calculate the euclidean distance between the query and training image
-    ---------------------------------------------------------------------
-
+    Sklearn's KNN classifier on the classification dataset containing
+    three classes such as cat, car, and dog.
+    - Load and transform the  dataset 
+       - rescale to (224, 224) image 
+       - convert to torch Tensor
+       - Normalize the pixel intensities with given mean and standard deviation
+    - convert to numpy array
+    - split the dataset into training and testing sections
+    - initilize k value and distance metric (experimental to be varied for improvment)
+    - training the KNN classifier on the dataset given the configuration
+    - if results good enough, abort, otherwise change configurations 
+    -----------------------------------------------------------------------------------
+    
+    
     Parameters
     ----------
-    img1: np.ndarray (image 1)
-    img2: np.ndarray (image 2)
-
-    Return
-    ------
-    dist: float (distance btw images)
+    data: training images and labels
+    k: n neighbors (hyperparameter)
+    split: split size btw training and testing
+    distance: distance metric to be used for picking top vots
     """
-    # preprocess the image into a vector
-    img1_flatten = img1.flatten()
-    img2_flatten = img2.flatten()
+    # you may use different values of K, p =2 is euclidean distance
+    if distance == "Euclidean":
+        classifier = KNeighborsClassifier(n_neighbors= k, p = 2) # p = 1 (manhatten distance)
+    else:
+        classifier = KNeighborsClassifier(n_neighbors= k, p = 1)
+    
+    # prepare the dataset
+    # channel last conversion, in pytorch natively it was channel first
+    images = images.permute(0, 2, 3, 1)
+    # convert to numpy array
+    images_np = images.numpy()
+    labels_np = labels.numpy()
+    # now flatten the images to have (m, n)
+    # where m is number of samples and n is features such as pixels intensities (32x32x3)
+    images_processed = images_np.reshape(images_np.shape[0], -1)
+    
+    # now split the dataset into traini and test
+    (trainX, testX, trainY, testY) = train_test_split(images_processed, labels_np, test_size = split,
+                                                      random_state= 42)
+    print('processed.')
+    # classifier.fit(X, y)
+    # prediction = classifier.predict(query)
+    # return prediction
 
-    # calculate the euclidean distance between two images
-    dist = np.linalg.norm(img1_flatten - img2_flatten)
-    return dist
 
-def mode(labels):
-    return Counter(labels).most_common(1)[0][0]
 
-def normalize(X):
-    return X/255.0
-
-# TODO: code needs to be tested  with different values of K. 
-# TODO: custom data loading and processing option should be added.
+# TODO: code needs to be tested  with different values of K. (PENDING)
+# DONE: custom data loading and processing option should be added.
 if __name__ == "__main__":
+    # configs
     args = read_args()
+    transformations = image_transforms(img = args.img)
 
     # read the dataset
-    logger.info('Loading the CIFAR10 dataset')
-    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+    logger.info('Loading the Custom dataset')
+    data_loader = load_dataset(images= args.data, batch_size= args.batch, 
+                               shuffle= False, transforms= transformations if args.transfroms else None)
+    # split the images and the labels
+    images, labels = next(iter(data_loader))
+    class_to_idx = data_loader.dataset.class_to_idx
+    logger.info(f"The datast classes information: {class_to_idx}")
 
-    # normalize the 
-    logger.info('Normalizing the dataset')
-    x_train_norm = normalize(x_train)
-    x_test_norm = normalize(x_test)
+    # now run the trainner on the dataset
+
+
     
-    # create a 20 samples dataset and set a query image from test set randomly
-    logger.info(f"Creating a {args.subset} samples subset")
-    x_train_subset, y_train_subset = create_subset(x_train_norm, y_train, samples=20)
-    query_index = random.randint(0, len(x_test))
-    query_image = x_test_norm[query_index]
-
-    # run the KNN algorithm now
-    logger.info(f'All done, now runing KNN algorithm on the dataset')
-    if not args.default:
-        k_neighbors, prediction = KNN(x_train_subset, query_image, args.k, eculidean_dist, mode)
-    else:
-        prediction = KNN_sklearn(x_train_subset, y_train_subset, args.k, query_image)
-    logger.info(f'Predicted label for the query image: {int(prediction[0])}')
-    logger.info(f'Actual label of the query image: {int(y_test[query_index][0])}')
+    
+    

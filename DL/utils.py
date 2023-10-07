@@ -18,6 +18,7 @@ import os
 import sys
 import random
 import pandas as pd
+from collections import Counter
 
 import torch, torchvision
 from torchvision import datasets, transforms
@@ -86,31 +87,54 @@ def create_subset(X: np.ndarray, y: np.ndarray, samples: int = 20):
 
 
 
-def image_transforms(img: int = 224,
-                     kind = 'train'):
+def image_transforms(img: int = 224):
     """
     transfrom the image into a suitable format for preprocessing
+    1. reshape the image
+    2. convert it to torch tensor
+    3. normalize the image with given mean and standard deviation
     ------------------------------------------------------------
     img: int (image size)
-    kind: str (use training or testing phase)
+
 
     """
     # add more augmentataion or transforms options as per the need.
-    if kind == 'train':
-        transformations = torchvision.transforms.Compose([
-            transforms.Resize([img, img]), 
-            transforms.ToTensor(),
-            transforms.Normalize(mean = [0.485, 0.456, 0.406], 
-                                 std =  [0.229, 0.224, 0.225])
-        ])
-    else:
-        transformations = torchvision.transforms.Compose([
-            transforms.Resize([img, img]),
-            transforms.ToTesnor(),
-            transforms.Normalize(mean = [0.485, 0.456, 0.406], 
-                                 std =  [0.229, 0.224, 0.225])
-        ])
+
+    transformations = torchvision.transforms.Compose([
+        transforms.Resize([img, img]), 
+        transforms.ToTensor(),
+        transforms.Normalize(mean = [0.485, 0.456, 0.406], 
+                                std =  [0.229, 0.224, 0.225])
+    ])
+    
     return transformations
     
 
+def eculidean_dist(img1: np.ndarray, img2: np.ndarray):
+    """
+    calculate the euclidean distance between the query and training image
+    ---------------------------------------------------------------------
+
+    Parameters
+    ----------
+    img1: np.ndarray (image 1)
+    img2: np.ndarray (image 2)
+
+    Return
+    ------
+    dist: float (distance btw images)
+    """
+    # preprocess the image into a vector
+    img1_flatten = img1.flatten()
+    img2_flatten = img2.flatten()
+
+    # calculate the euclidean distance between two images
+    dist = np.linalg.norm(img1_flatten - img2_flatten)
+    return dist
+
+def mode(labels):
+    return Counter(labels).most_common(1)[0][0]
+
+def normalize(X):
+    return X/255.0
 

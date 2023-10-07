@@ -96,10 +96,10 @@ if __name__ == "__main__":
         1: 'cat' }
     
     # load the dataset
-    transformations = image_transforms(args.img, kind = 'train')
+    transformations = image_transforms(args.img)
     logger.info(f'Loading the dataset with {args.img} size')
     train_loader = load_dataset(args.data, batch_size= args.batch, 
-                                shuffle= True, transforms= transformations)
+                                shuffle= True, transforms= transformations if args.transform else None)
     image, labels = next(iter(train_loader))
     print(image.shape, labels)
     print(train_loader.dataset.class_to_idx)
