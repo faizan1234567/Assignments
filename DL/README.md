@@ -70,7 +70,7 @@ The results are reported on ```30``` images (```24``` of them used for training)
 **Manhatten Distance**
 
 <table>
-<tr><th>Macro Avearge </th><th>Weighted Avearage </th></tr>
+<tr><th>Macro Averge </th><th>Weighted Average </th></tr>
 <tr><td>
 
 | K value | Precision| Recall | F1-score | Accuracy |
@@ -92,10 +92,11 @@ The results are reported on ```30``` images (```24``` of them used for training)
 | 5 | 0.5  | 0.67 |0.56| 0.67|
 
 </td></tr> </table>
+
 
 **Euclidean Distance**
 
-table>
+<table>
 <tr><th>Macro Avearge </th><th>Weighted Avearage </th></tr>
 <tr><td>
 
@@ -120,6 +121,7 @@ table>
 | 6 | 0.5  | 0.67 |0.56| 0.67|
 | 7 | 0.5  | 0.67 |0.56| 0.67|
 </td></tr> </table>
+
 
 Table: experimental resluts
 
