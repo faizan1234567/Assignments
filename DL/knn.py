@@ -144,7 +144,7 @@ def KNN_sklearn(images, labels, k: int = 3, split: float = 0.2,
                                                       random_state= 42)
     # TODO: train KNN classifer and get classification report on the dataset.
 
-    # classifier.fit(X, y)
+    classifier.fit(trainX, trainY)
     # prediction = classifier.predict(query)
     # return prediction
 
