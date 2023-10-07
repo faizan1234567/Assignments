@@ -53,7 +53,7 @@ python dataset.py -h
 To train on your dataset
 ```python
 python knn.py -h
-python knn.py -s 20 -k 3 --default
+python knn.py --k 9 --default --split_size 0.2 --img  32 --data dataset/ --batch 30 --report --transform 
 ```
 If you face any issue in installation and usage, please create an issue. If you have any ideas for improvments kindly create a PR.
 
