@@ -15,6 +15,7 @@ from pathlib import Path
 import sys
 import os
 import logging
+from tabulate import tabulate
 
 # append root if doesn't exists in the system path
 ROOT = Path(__file__).resolve().parents[0]
@@ -85,10 +86,9 @@ class KNNModel:
             distances = [self.euclidean_distance(query, self.X_train[i, :]) for i in range(self.X_train.shape[0])]
         else:
             distances = [self.manhatten_distance(query, self.X_train[i, :]) for i in range(self.X_train.shape[0])]
-        k_indices = np.argsort(distances)[:self.k]
-        k_nearest_labels = [self.y_train[i] for i in k_indices]
+        k_indices = sorted(range(len(distances)), key=lambda k: distances[k])[:self.k]
+        k_nearest_labels = [int(self.y_train[i][0]) for i in k_indices]
         most_common = Counter(k_nearest_labels).most_common(1)
-        print(most_common[0][0])
         return most_common[0][0]
 
 if __name__ == "__main__":
@@ -109,9 +109,13 @@ if __name__ == "__main__":
     classifier = KNNModel(k = args.k, distance= 'Euclidean' if not args.manhatten else 'manhatten')
     classifier.fit(Xtrain, Ytrain)
     ytest_pred = classifier.predict(Xtest)
-    print(ytest_pred)
+    precision, recall, f1_score, acc = calculate_metrics(Ytest, ytest_pred)
+    data = [["Metric", "Value"],
+            ["Precision", precision],
+            ["Recall", recall],
+            ["F1 Score", f1_score], 
+            ["Accuracy", acc]]
 
-    # now calcualte the fucking accuracy
-    #TODO: TO TEST THE CODE
-
-
+    # Print the table using tabulate
+    table = tabulate(data, headers="firstrow", tablefmt="grid")
+    print(table)

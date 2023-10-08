@@ -175,10 +175,29 @@ def train_test_split(X, y, test_size=0.2, random_seed=None):
     return X_train, X_test, y_train, y_test
 
 def calculate_accuracy(y_true, y_pred):
-    correct_predictions = np.sum(y_true == y_pred)
-    total_predictions = len(y_true)
+    correct_predictions = np.sum(y_true.ravel() == y_pred)
+    total_predictions = len(y_pred)
     accuracy = correct_predictions / total_predictions
     return accuracy
+
+def calculate_metrics(y_true, y_pred):
+    true_positives = 0
+    false_positives = 0
+    false_negatives = 0
+
+    for i in range(len(y_true)):
+        if y_true[i] == 1 and y_pred[i] == 1:
+            true_positives += 1
+        elif y_true[i] == 0 and y_pred[i] == 1:
+            false_positives += 1
+        elif y_true[i] == 1 and y_pred[i] == 0:
+            false_negatives += 1
+
+    precision = true_positives / (true_positives + false_positives) if (true_positives + false_positives) != 0 else 0
+    recall = true_positives / (true_positives + false_negatives) if (true_positives + false_negatives) != 0 else 0
+    f1_score = (2 * precision * recall) / (precision + recall) if (precision + recall) != 0 else 0
+    accurarcy = calculate_accuracy(y_true= y_true, y_pred= y_pred)
+    return precision, recall, f1_score, accurarcy
 
 def process_data(images, labels):
     images = images.permute(0, 2, 3, 1)
