@@ -111,12 +111,13 @@ if __name__ == "__main__":
     ytest_pred = classifier.predict(Xtest)
     metrics1, metrics2, metrics3 = calculate_metrics(Ytest.ravel(), ytest_pred, num_classes=3)
     acc = calculate_accuracy(Ytest, ytest_pred)
-    data = [["Metric", "precision", "recall", "f1-score", "accuracy"],
-            ["car", metrics1[0], metrics1[1], metrics1[2], acc],
-            ["cat", metrics2[0], metrics2[1], metrics2[2], acc],
-            ["dog", metrics3[0], metrics3[1], metrics3[2], acc]]
-           
+    logger.info(f'Accuracy: {acc}')
+    if args.report:
+        data = [["Metric", "precision", "recall", "f1-score", "accuracy"],
+                ["car", metrics1[0], metrics1[1], metrics1[2], acc],
+                ["cat", metrics2[0], metrics2[1], metrics2[2], acc],
+                ["dog", metrics3[0], metrics3[1], metrics3[2], acc]]
+            
+        table = tabulate(data, headers="firstrow", tablefmt="grid")
 
-    # Print the table using tabulate
-    table = tabulate(data, headers="firstrow", tablefmt="grid")
-    print(table)
+        print(table)
