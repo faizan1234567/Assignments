@@ -180,24 +180,29 @@ def calculate_accuracy(y_true, y_pred):
     accuracy = correct_predictions / total_predictions
     return accuracy
 
-def calculate_metrics(y_true, y_pred):
-    true_positives = 0
-    false_positives = 0
-    false_negatives = 0
+def calculate_metrics(y_true, y_pred, num_classes):
+    confusion_matrix = np.zeros((num_classes, num_classes), dtype=int)
 
+    # Populate the confusion matrix
     for i in range(len(y_true)):
-        if y_true[i] == 1 and y_pred[i] == 1:
-            true_positives += 1
-        elif y_true[i] == 0 and y_pred[i] == 1:
-            false_positives += 1
-        elif y_true[i] == 1 and y_pred[i] == 0:
-            false_negatives += 1
+        true_class = y_true[i]
+        pred_class = y_pred[i]
+        confusion_matrix[true_class][pred_class] += 1
 
-    precision = true_positives / (true_positives + false_positives) if (true_positives + false_positives) != 0 else 0
-    recall = true_positives / (true_positives + false_negatives) if (true_positives + false_negatives) != 0 else 0
-    f1_score = (2 * precision * recall) / (precision + recall) if (precision + recall) != 0 else 0
-    accurarcy = calculate_accuracy(y_true= y_true, y_pred= y_pred)
-    return precision, recall, f1_score, accurarcy
+    # Calculate precision, recall, and F1-score for each class
+    metrics = []
+    for class_id in range(num_classes):
+        true_positive = confusion_matrix[class_id][class_id]
+        false_positive = sum(confusion_matrix[i][class_id] for i in range(num_classes)) - true_positive
+        false_negative = sum(confusion_matrix[class_id]) - true_positive
+
+        precision = true_positive / (true_positive + false_positive) if (true_positive + false_positive) != 0 else 0
+        recall = true_positive / (true_positive + false_negative) if (true_positive + false_negative) != 0 else 0
+        f1_score = (2 * precision * recall) / (precision + recall) if (precision + recall) != 0 else 0
+
+        metrics.append([precision, recall, f1_score])
+
+    return metrics
 
 def process_data(images, labels):
     images = images.permute(0, 2, 3, 1)

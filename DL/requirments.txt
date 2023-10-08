@@ -4,3 +4,4 @@ tensorflow
 torch
 torchvision
 pandas
+tabulate

@@ -109,12 +109,13 @@ if __name__ == "__main__":
     classifier = KNNModel(k = args.k, distance= 'Euclidean' if not args.manhatten else 'manhatten')
     classifier.fit(Xtrain, Ytrain)
     ytest_pred = classifier.predict(Xtest)
-    precision, recall, f1_score, acc = calculate_metrics(Ytest, ytest_pred)
-    data = [["Metric", "Value"],
-            ["Precision", precision],
-            ["Recall", recall],
-            ["F1 Score", f1_score], 
-            ["Accuracy", acc]]
+    metrics1, metrics2, metrics3 = calculate_metrics(Ytest.ravel(), ytest_pred, num_classes=3)
+    acc = calculate_accuracy(Ytest, ytest_pred)
+    data = [["Metric", "precision", "recall", "f1-score", "accuracy"],
+            ["car", metrics1[0], metrics1[1], metrics1[2], acc],
+            ["cat", metrics2[0], metrics2[1], metrics2[2], acc],
+            ["dog", metrics3[0], metrics3[1], metrics3[2], acc]]
+           
 
     # Print the table using tabulate
     table = tabulate(data, headers="firstrow", tablefmt="grid")
