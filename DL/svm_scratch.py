@@ -87,7 +87,7 @@ class SVM:
     def predict(self, X):
         approx = np.dot(X, self.w) - self.b
         return np.sign(approx)
-    
+# TODO: slight updates to the code ..   
 if __name__ == "__main__":
     args = read_args()
     transformations = image_transforms(img = args.img)
