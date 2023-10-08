@@ -3,3 +3,6 @@ knn debug args:
 "args": ["--img", "32", "--data", "dataset/",
                      "--batch", "30", "--report", "--transform", 
                      "--split_size", "0.2", "--default"]
+
+
+more debuging options could be added below:
