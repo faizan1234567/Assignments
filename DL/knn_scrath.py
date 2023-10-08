@@ -119,5 +119,4 @@ if __name__ == "__main__":
                 ["dog", metrics3[0], metrics3[1], metrics3[2], acc]]
             
         table = tabulate(data, headers="firstrow", tablefmt="grid")
-
         print(table)
