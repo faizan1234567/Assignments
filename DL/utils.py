@@ -138,3 +138,55 @@ def mode(labels):
 def normalize(X):
     return X/255.0
 
+def train_test_split(X, y, test_size=0.2, random_seed=None):
+    """
+    Split the dataset into training and testing sets.
+
+    Parameters:
+    - X: The feature matrix.
+    - y: The target labels.
+    - test_size: The proportion of the dataset to include in the test split (default is 0.2).
+    - random_seed: Seed for random number generation (optional).
+
+    Returns:
+    - X_train: The training feature matrix.
+    - X_test: The testing feature matrix.
+    - y_train: The training target labels.
+    - y_test: The testing target labels.
+    """
+    if random_seed is not None:
+        np.random.seed(random_seed)
+
+    num_samples = len(X)
+    num_test_samples = int(test_size * num_samples)
+
+    # Shuffle the indices of the data
+    shuffled_indices = np.random.permutation(num_samples)
+
+    # Split the shuffled indices into training and testing sets
+    test_indices = shuffled_indices[:num_test_samples]
+    train_indices = shuffled_indices[num_test_samples:]
+
+    X_train = X[train_indices]
+    X_test = X[test_indices]
+    y_train = y[train_indices]
+    y_test = y[test_indices]
+
+    return X_train, X_test, y_train, y_test
+
+def calculate_accuracy(y_true, y_pred):
+    correct_predictions = np.sum(y_true == y_pred)
+    total_predictions = len(y_true)
+    accuracy = correct_predictions / total_predictions
+    return accuracy
+
+def process_data(images, labels):
+    images = images.permute(0, 2, 3, 1)
+    # convert to numpy array
+    images_np = images.numpy()
+    labels_np = labels.numpy()
+    # now flatten the images to have (m, n)
+    # where m is number of samples and n is features such as pixels intensities (32x32x3)
+    images_processed = images_np.reshape(images_np.shape[0], -1)
+    labels_processed = labels_np.reshape(labels_np.shape[0], -1)
+    return (images_processed, labels_processed)
