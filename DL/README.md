@@ -127,7 +127,9 @@ to learn rich information. It is most simple algorithm in machine learning, whic
 
 ## Disclaimer
 The purpose of open sourcing this repository for those who want to learn and they are stuck in implementation, aim of this repo is to speed up their development. Feel free to comment if you have questions and 
-need support.
+need support. 
+
+If you find anything useful, please start the assignments repositroy. 
 
 ## References 
 [1]	T. Ho-Phuoc, “CIFAR10 to Compare Visual Recognition Performance between Deep Neural Networks and Humans,” 2018, [Online]. Available: http://arxiv.org/abs/1811.07270
