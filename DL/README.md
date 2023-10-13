@@ -127,7 +127,7 @@ to learn rich information. It is most simple algorithm in machine learning, whic
 
 ## Disclaimer
 The purpose of open sourcing this repository for those who want to learn and they are stuck in implementation, aim of this repo is to speed up their development. Feel free to comment if you have questions and 
-need support. 
+need support.  
 
 If you find anything useful, please start the assignments repositroy. 
 
@@ -141,3 +141,5 @@ If you find anything useful, please start the assignments repositroy.
 [4] Adrian, “KNN image classification.” [Online]. Available: https://pyimagesearch.com/2021/04/17/your-first-image-classifier-using-k-nn-to-classify-images/#:~:text=The k-NN algorithm classifies,“votes” for each label.
 
 [5]. Evgeniou, Theodoros & Pontil, Massimiliano. (2001). Support Vector Machines: Theory and Applications. 2049. 249-257. 10.1007/3-540-44673-7_12. 
+
+[6]. Wikipedia deep neural networks
