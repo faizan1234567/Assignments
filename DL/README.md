@@ -126,9 +126,12 @@ There are total of 30 images on which model has been trained. The dataset is not
 to learn rich information. It is most simple algorithm in machine learning, which is based on L1 or L2 distance and voting strategy. In addition, images size is compressed to 32x32x3 to reduce the number of computations on the cpu. So by compressing the size of an image might cause loss of information. 
 
 ## Disclaimer
-The purpose of open sourcing this repository for those who want to learn and they are stuck in implementation, aim of this repo is to speed up their development. 
+The purpose of open sourcing this repository for those who want to learn and they are stuck in implementation, aim of this repo is to speed up their development. Feel free to comment if you have questions and 
+need support.  
 
-## References
+If you find anything useful, please start the assignments repositroy. 
+
+## References 
 [1]	T. Ho-Phuoc, “CIFAR10 to Compare Visual Recognition Performance between Deep Neural Networks and Humans,” 2018, [Online]. Available: http://arxiv.org/abs/1811.07270
 
 [2]	“CIFAR10 dataset description.” [Online]. Available: https://paperswithcode.com/dataset/cifar-10
@@ -137,4 +140,10 @@ The purpose of open sourcing this repository for those who want to learn and the
 
 [4] Adrian, “KNN image classification.” [Online]. Available: https://pyimagesearch.com/2021/04/17/your-first-image-classifier-using-k-nn-to-classify-images/#:~:text=The k-NN algorithm classifies,“votes” for each label.
 
+<<<<<<< HEAD
 [5]. deep learning, Ian Goodfellow
+=======
+[5]. Evgeniou, Theodoros & Pontil, Massimiliano. (2001). Support Vector Machines: Theory and Applications. 2049. 249-257. 10.1007/3-540-44673-7_12. 
+
+[6]. Wikipedia deep neural networks
+>>>>>>> be440f16f4651f6789ca7a4c5002cdff541422ed
