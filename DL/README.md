@@ -137,3 +137,4 @@ The purpose of open sourcing this repository for those who want to learn and the
 
 [4] Adrian, “KNN image classification.” [Online]. Available: https://pyimagesearch.com/2021/04/17/your-first-image-classifier-using-k-nn-to-classify-images/#:~:text=The k-NN algorithm classifies,“votes” for each label.
 
+[5]. deep learning, Ian Goodfellow
