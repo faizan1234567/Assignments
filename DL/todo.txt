@@ -1,3 +1,4 @@
 - Load the image dataset from the camera for training and evaluation
 - USE KNN ALGORITHM ON the dataset from the SKlearn libraray
 - Create a results file and classification report
+- done
