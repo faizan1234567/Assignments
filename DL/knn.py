@@ -119,7 +119,7 @@ def KNN_sklearn(images, labels, k: int = 3, split: float = 0.2,
     
     Parameters
     ----------
-    data: training images and labels
+    data: training images and labels (in numpy ndarray format)
     k: n neighbors (hyperparameter)
     split: split size btw training and testing
     distance: distance metric to be used for picking top vots
