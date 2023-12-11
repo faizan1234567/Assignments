@@ -140,10 +140,4 @@ If you find anything useful, please start the assignments repositroy.
 
 [4] Adrian, “KNN image classification.” [Online]. Available: https://pyimagesearch.com/2021/04/17/your-first-image-classifier-using-k-nn-to-classify-images/#:~:text=The k-NN algorithm classifies,“votes” for each label.
 
-<<<<<<< HEAD
 [5]. deep learning, Ian Goodfellow
-=======
-[5]. Evgeniou, Theodoros & Pontil, Massimiliano. (2001). Support Vector Machines: Theory and Applications. 2049. 249-257. 10.1007/3-540-44673-7_12. 
-
-[6]. Wikipedia deep neural networks
->>>>>>> be440f16f4651f6789ca7a4c5002cdff541422ed
